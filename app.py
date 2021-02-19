@@ -1,23 +1,16 @@
-import os 
-from flask import Flask
+from flask import Flask, render_template
+import requests
+import json
+
+app = Flask (__name__)
 
 
-app = Flask(__name__)
-app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
-app.config["MONGO_URI"] = os.environ.get("")
-app.secret_key = os.environ.get('SECRET_KEY')
-
-mongo = PyMongo(app)
-starships = mongo.db.ships
-
-@app.route("/starships")
-def starships():
-    hyperdriveSorted = startships.find().sort({"hyperdrive": 1})
-    return jsonify(data)
+@app.route('/', methods=['GET'])
+def index():
+    req = requests.get('http://swapi.dev/api/films/1/')
+    data = json.loads(req.content)
+    return render_template('index.html', data=data)
 
 
-
-if __name__== "__main__":
-    app.run(host=os.environ.get("IP"),
-            port=int(os.environ.get("PORT")),
-            debug=True)
+if __name__:
+  app.run(host='0.0.0.0', debug=True)
